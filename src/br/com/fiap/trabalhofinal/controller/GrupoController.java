@@ -1,6 +1,7 @@
 package br.com.fiap.trabalhofinal.controller;
 
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,9 +83,10 @@ public class GrupoController {
 	}
 	
 	@RequestMapping(value = "/grupo/cadastrar", method = RequestMethod.POST)
-	public String cadastrar(Grupo grupo, ModelMap model) {
+	public String cadastrar(Grupo grupo, ModelMap model, HttpSession sessao) {
 		try {
-//			grupo = grupoDao.adicionar(grupo);
+			grupo.setModerador((Membro) sessao.getAttribute("usuario"));
+			grupo = grupoDao.adicionar(grupo);
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

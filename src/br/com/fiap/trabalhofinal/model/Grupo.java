@@ -1,5 +1,6 @@
 package br.com.fiap.trabalhofinal.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -19,7 +20,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "grupo")
-public class Grupo {
+public class Grupo implements Serializable{
+
+	private static final long serialVersionUID = -5262762781830079764L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

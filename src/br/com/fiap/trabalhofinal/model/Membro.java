@@ -1,6 +1,6 @@
 package br.com.fiap.trabalhofinal.model;
 
-import java.util.Calendar;
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,20 +14,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author Julio
  */
 @Entity
 @Table(name = "membro")
-public class Membro {
+public class Membro implements Serializable {
+
+	private static final long serialVersionUID = -8899573447241218176L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,7 +38,7 @@ public class Membro {
 	private String nome;
 	
 	@Column(name = "CPF", nullable=false, unique=true)
-	@Pattern(regexp="[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}", message="CPF inválido") @NotNull @NotEmpty
+//	@Pattern(regexp="[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}", message="CPF inválido") @NotNull @NotEmpty
 	private String cpf;
 	
 	@Size(max=15, min=6, message="A senha deve ter entre 6 e 15 caracteres") @NotNull @NotEmpty

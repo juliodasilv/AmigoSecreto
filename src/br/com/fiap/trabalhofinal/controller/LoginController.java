@@ -41,7 +41,8 @@ public class LoginController {
 	}
 
 	@RequestMapping("/logooff")
-	public String logooff() {
+	public String logooff(HttpSession sessao) {
+		sessao.invalidate();
 		return "login";
 	}	 
 }

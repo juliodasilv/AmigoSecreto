@@ -84,7 +84,7 @@ public class GrupoController {
 	@RequestMapping(value = "/grupo/cadastrar", method = RequestMethod.POST)
 	public String cadastrar(Grupo grupo, ModelMap model) {
 		try {
-			grupo = grupoDao.adicionar(grupo);
+//			grupo = grupoDao.adicionar(grupo);
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

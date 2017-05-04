@@ -31,7 +31,6 @@ public class GrupoDAO {
 	}
 
 	public Grupo buscarPorNome(String nome) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

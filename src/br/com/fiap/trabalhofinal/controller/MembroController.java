@@ -1,11 +1,14 @@
 package br.com.fiap.trabalhofinal.controller;
 
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,6 +22,7 @@ import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
  */
 @Controller
 @Transactional
+@RequestMapping("/membro")
 public class MembroController {
 	
 	@Autowired
@@ -27,15 +31,20 @@ public class MembroController {
 	@Autowired
 	private GrupoDAO grupoDao;
 	
-	@RequestMapping("/membro/iniciarCadastro")
-	public String iniciarCadastro() {
+	@RequestMapping("/iniciarCadastro")
+	public String iniciarCadastro(Membro membro) {
 		return "cadastro/cadastrarMembro";
 	}
 
-	@RequestMapping(value = "/membro/cadastrar", method = RequestMethod.POST)
-	public String cadastrar(Membro membro, ModelMap model) {
+	@RequestMapping(value="/cadastrar", method=RequestMethod.POST)
+	public String cadastrar(@Valid Membro membro, BindingResult bindingResult, HttpSession sessao,  ModelMap model) {
 		try {
-//			membro = membroDao.adicionar(membro);
+			if (bindingResult.hasErrors()) {
+				return "cadastro/cadastrarMembro";
+			}
+			
+			membro = membroDao.adicionar(membro);
+			sessao.setAttribute("usuario", membro);
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -44,28 +53,12 @@ public class MembroController {
 		}
 	}
 
-	@RequestMapping("/membro/visualizarAmigoSecreto")
+	@RequestMapping("/visualizarAmigoSecreto")
 	public String visualizar() {
 		if(true)
 			return "visualizar/visualizarAmigoSecreto";
 		else
 			return "amigoNaoSorteado";
-	}
-
-	public MembroDAO getMembroDao() {
-		return membroDao;
-	}
-
-	public void setMembroDao(MembroDAO membroDao) {
-		this.membroDao = membroDao;
-	}
-
-	public GrupoDAO getGrupoDao() {
-		return grupoDao;
-	}
-
-	public void setGrupoDao(GrupoDAO grupoDao) {
-		this.grupoDao = grupoDao;
 	}
 	
 }

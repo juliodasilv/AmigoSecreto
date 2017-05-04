@@ -18,16 +18,13 @@
 				</tr>
 				<tr>
 					<td>Valor minimo do presente:</td>
-					<td><input type="text" name="valorMinimo" size="30"></td>
+					<td><input type="text" name="valorMinimoPresente" size="30"></td>
 				</tr>
 				<tr>
 					<td>Local da Confraternização:</td>
-					<td><input type="text" name="local" size="30"></td>
+					<td><input type="text" name="localConfraternizacao" size="30"></td>
 				</tr>			
-				<tr>
-					<td>Data da Confraternização (DD/MM/YYYY):</td>
-					<td><input type="text" name="dataConfraternizacao" size="20"></td>
-				</tr>
+
 			</table>
 			<input type="submit" value="Cadastrar">
 		</form>

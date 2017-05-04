@@ -24,4 +24,8 @@ public class MembroDAO {
 		return manager.find(Membro.class, membro.getId());
 	}
 
+	public Membro verificaUsuario(String cpf, String senha) {
+		return null;
+	}
+
 }

@@ -13,7 +13,14 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author Julio
@@ -27,20 +34,25 @@ public class Membro {
 	@Column(name = "ID")
 	private long id;
 	
-	@Column(name = "NOME", nullable=false, length=50)
+	@Size(max=128) @NotNull @NotEmpty
+	@Column(name = "NOME", nullable=false, length=128)
 	private String nome;
 	
 	@Column(name = "CPF", nullable=false, unique=true)
-	private int cpf;
+	@Pattern(regexp="[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}", message="CPF inválido") @NotNull @NotEmpty
+	private String cpf;
 	
-	@Column(name = "SENHA", nullable=false, length=20)
+	@Size(max=15, min=6, message="A senha deve ter entre 6 e 15 caracteres") @NotNull @NotEmpty
+	@Column(name = "SENHA", nullable=false, length=15)
 	private String senha;
 	
+	@Email(message="E-mail inválido	") @NotNull @NotEmpty
 	@Column(name = "EMAIL", nullable=false, length=50)
 	private String email;
 	
-	@Column(name = "DATA_NASCIMENTO")
-	private Calendar dataNascimento;
+//	@Column(name = "DATA_NASCIMENTO")
+//	@DateTimeFormat(iso=ISO.DATE, pattern="yyyy-MM-dd")
+//	private Calendar dataNascimento;
 	
 	@Column(name = "DETALHE")
 	private String detalhe;
@@ -53,9 +65,6 @@ public class Membro {
 	@JoinColumns({ @JoinColumn(name = "ID_GRUPO", referencedColumnName = "ID") })
 	private Grupo grupo;
 	
-	@Transient
-	private boolean moderador = false;
-
 	public long getId() {
 		return id;
 	}
@@ -72,11 +81,11 @@ public class Membro {
 		this.nome = nome;
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
@@ -96,13 +105,13 @@ public class Membro {
 		this.email = email;
 	}
 
-	public Calendar getDataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNascimento(Calendar dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+//	public Calendar getDataNascimento() {
+//		return dataNascimento;
+//	}
+//
+//	public void setDataNascimento(Calendar dataNascimento) {
+//		this.dataNascimento = dataNascimento;
+//	}
 
 	public String getDetalhe() {
 		return detalhe;
@@ -128,7 +137,4 @@ public class Membro {
 		this.amigoSecreto = amigoSecreto;
 	}
 	
-	public boolean isModerador() {
-		return moderador;
-	}
 }

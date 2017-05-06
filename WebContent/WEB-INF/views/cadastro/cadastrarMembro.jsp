@@ -29,10 +29,10 @@
 					<td>Email:</td>
 					<td><input type="text" name="email" size="30"></td>
 				</tr>			
-				<tr>
-					<td>Data Nascimento (DD/MM/YYYY):</td>
-					<td><input type="text" name="dataNascimento" size="20"></td>
-				</tr>
+<!-- 				<tr> -->
+<!-- 					<td>Data Nascimento (DD/MM/YYYY):</td> -->
+<!-- 					<td><input type="text" name="dataNascimento" size="20"></td> -->
+<!-- 				</tr> -->
 			</table>
 			<input type="submit" value="Cadastrar">
 		</form>

@@ -138,5 +138,29 @@ public class Membro implements Serializable {
 	public void setAmigoSecreto(Membro amigoSecreto) {
 		this.amigoSecreto = amigoSecreto;
 	}
+
+	@Override
+	public String toString() {
+		return "Membro [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", senha=" + senha + ", email=" + email
+				+ ", dataNascimento=" + dataNascimento + ", detalhe=" + detalhe + ", amigoSecreto=" + amigoSecreto
+				+ ", grupo=" + grupo.getNome() + "]";
+	}
+
+	/**
+	 * Retorna o nome do amigo secreto previamente sorteado.
+	 * Caso ainda não tenha sido realizado o sorteio, retorna uma msg. 
+	 * 
+	 * @return
+	 */
+	public String getNomeAmigoSecreto() {
+		String msg = "";
+
+		if (getAmigoSecreto() != null)
+			msg = String.format("O seu amigo secreto é o %s", getAmigoSecreto().getNome());
+		else
+			msg = "Seu amigo Secreto ainda não foi sorteado.";
+
+		return msg;
+	}
 	
 }

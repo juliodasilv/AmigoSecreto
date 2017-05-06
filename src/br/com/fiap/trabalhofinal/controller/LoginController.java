@@ -28,6 +28,11 @@ public class LoginController {
 		return "login";
 	}
 
+	@RequestMapping("/home")
+	public String voltar() {
+		return "home";
+	}
+
 	@RequestMapping(value="/logar", method=RequestMethod.POST)
 	public String logar(@RequestParam("cpf") String cpf, @RequestParam("senha") String senha, HttpSession sessao,  ModelMap model) {
 		try {

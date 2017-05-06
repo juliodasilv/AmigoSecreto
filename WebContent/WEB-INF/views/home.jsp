@@ -6,15 +6,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Menu de Opções</title>
+<title>Amigo Secreto</title>
 </head>
 <body>
-	<h1>Menu de Opções</h1>
+	<h1>Menu</h1>
 	<ul>
 		<li><a href=<c:url value="/grupo/iniciarCadastro" />>Criar Grupo</a></li>
 		<li><a href=<c:url value="/grupo/pesquisar" />>Entrar em um grupo existente</a></li>
-		<li><a href=<c:url value="/grupo/iniciarSorteio" />>Sortear</a></li>
 		<li><a href=<c:url value="/membro/visualizarAmigoSecreto" />>Visualizar Amigo Secreto</a></li>
+		<li><a href=<c:url value="/grupo/iniciarSorteio" />>Sortear Amigo Secreto</a></li>
 		<li><a href=<c:url value="/logooff" />>Sair</a></li>
 	</ul>
 	${msg}

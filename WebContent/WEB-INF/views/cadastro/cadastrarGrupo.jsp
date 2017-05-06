@@ -29,5 +29,7 @@
 			<input type="submit" value="Cadastrar">
 		</form>
 		${msg}
+		<br>
+		<a href=<c:url value="/home" />>Voltar</a>
 	</body>
 </html>

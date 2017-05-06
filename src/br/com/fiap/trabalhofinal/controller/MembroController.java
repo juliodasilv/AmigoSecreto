@@ -55,11 +55,10 @@ public class MembroController {
 	}
 
 	@RequestMapping("/visualizarAmigoSecreto")
-	public String visualizar() {
-		if(true)
-			return "visualizar/visualizarAmigoSecreto";
-		else
-			return "amigoNaoSorteado";
+	public String visualizar(HttpSession sessao, ModelMap model) {
+		Membro membro = (Membro) sessao.getAttribute("usuario");
+		model.addAttribute("msg", membro.getNomeAmigoSecreto());
+		return "visualizar/visualizarAmigoSecreto";
 	}
 	
 }

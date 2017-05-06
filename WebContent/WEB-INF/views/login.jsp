@@ -6,9 +6,10 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Login</title>
+		<title>Amigo Secreto</title>
 	</head>
 	<body>
+		<h1>Login</h1>
 		<div class="login-page">
 			<div class="form">
 				<form class="login-form" action=<c:url value="/logar"/> method="post">

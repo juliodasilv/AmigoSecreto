@@ -6,50 +6,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Listagem de Escolas</title>
+<title>Amigo Secreto</title>
 </head>
 <body>
-
-	<form action=<c:url value="/listarcursos"/> method="post">
-		<table>
-			<tr>
-				<td>Selecione a escola:</td>
-				<td><select name="idc">
-						<c:forEach var="e" items="${escolas}">
-							<c:choose>
-								<c:when test="${e.id eq selected}">
-									<option value="${e.id}" selected>${e.descricao}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${e.id}">${e.descricao}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-				</select></td>
-			</tr>
-		</table>
-		<input type="submit" value="Listar Cursos">
-	</form>
-
-	<table>
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>DESCRIÇÃO</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="c" items="${cursos}">
-				<tr>
-					<td>${c.id}</td>
-					<td>${c.descricao}</td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+	<h1>Veja seu amigo secreto</h1>
+	${msg}
 	
 	<br>
-	<a href=<c:url value="/" />>Voltar</a>
+	<a href=<c:url value="/home" />>Voltar</a>
 
 </body>
 </html>

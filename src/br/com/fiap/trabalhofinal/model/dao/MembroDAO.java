@@ -26,8 +26,8 @@ public class MembroDAO {
 		return manager.merge(membro);
 	}
 
-	public Membro buscarPorId(Grupo grupo, Membro membro) throws Exception {
-		return manager.find(Membro.class, membro.getId());
+	public Membro buscarPorId(long idMembro) throws Exception {
+		return manager.find(Membro.class, idMembro);
 	}
 
 	public Membro verificaUsuario(String cpf, String senha) throws FalhaLoginException {
@@ -43,10 +43,15 @@ public class MembroDAO {
 		}
 	}
 
-	public List<Membro> listarPorIdGrupo(int idGrupo) {
+	public List<Membro> listarPorIdGrupo(long idGrupo) {
 		Query query = manager.createQuery("select g from Grupo g where g.id = :idGrupo ", Grupo.class);
 		query.setParameter("idGrupo", idGrupo);
 		Grupo g = (Grupo) query.getSingleResult();
+		
+		for (Membro membro : g.getMembros()) {
+			System.out.println(membro);
+		}
+		
 		return g.getMembros();
 	}
 

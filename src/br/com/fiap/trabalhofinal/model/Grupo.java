@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author Julio
@@ -48,6 +49,12 @@ public class Grupo implements Serializable{
 	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
 	private List<Membro> membros;
 
+	@Transient
+	//TODO 
+	//Criar uma flag para permitir ou não o sorteio
+	//por enquanto esta transiente para nao esquecer de fazer isso
+	private boolean permiteSorteio;
+	
 	public long getId() {
 		return id;
 	}
@@ -102,6 +109,13 @@ public class Grupo implements Serializable{
 
 	public void setDataConfraternizacao(Date dataConfraternizacao) {
 		this.dataConfraternizacao = dataConfraternizacao;
+	}
+
+	@Override
+	public String toString() {
+		return "Grupo [id=" + id + ", moderador=" + moderador.getNome() + ", nome=" + nome + ", localConfraternizacao="
+				+ localConfraternizacao + ", valorMinimoPresente=" + valorMinimoPresente + ", dataConfraternizacao="
+				+ dataConfraternizacao + ", quantidade membros=" + membros.size() + "]";
 	}
 	
 }

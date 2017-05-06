@@ -6,14 +6,16 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Escolha um grupo que gostaria de participar</title>
+		<title>Amigo Secreto</title>
 	</head>
 	<body>
-		<form action=<c:url value="/grupo/listarMembros"/> method="post">
+		<h1>Escolha um grupo que gostaria de participar</h1>
+		<form action=<c:url value="/grupo/entrar"/> method="post">
 			<table>
 				<tr>
 					<td>Selecione a Grupo:</td>
-					<td><select name="idGrupo">
+					<td><select name="idGrupo" onchange=<c:url value="/grupo/listarMembros"/>>
+							<option value="">[Selecione]</option>
 							<c:forEach var="g" items="${grupos}">
 								<c:choose>
 									<c:when test="${g.id eq selected}">
@@ -27,7 +29,7 @@
 					</select></td>
 				</tr>
 			</table>
-			<input type="submit" value="Pesquisar Membros">
+			<input type="submit" value="Entrar no Grupo">
 		</form>
 		<table>
 			<thead>

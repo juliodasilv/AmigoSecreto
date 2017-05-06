@@ -1,6 +1,9 @@
 package br.com.fiap.trabalhofinal.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -9,10 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.fiap.trabalhofinal.model.Grupo;
 import br.com.fiap.trabalhofinal.model.Membro;
 import br.com.fiap.trabalhofinal.model.dao.GrupoDAO;
+import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
 
 /**
  * @author Julio
@@ -23,6 +28,9 @@ public class GrupoController {
 	
 	@Autowired
 	private GrupoDAO grupoDao;
+
+	@Autowired
+	private MembroDAO membroDao;
 	
 	@RequestMapping("/grupo/visualizar")
 	public String visualizar() {
@@ -48,9 +56,16 @@ public class GrupoController {
 		return "home";
 	}
 	
-	@RequestMapping("/grupo/iniciarListagem")
-	public String iniciarListagem() {
-		return "listagem/listarGrupo";
+	@RequestMapping("/grupo/pesquisar")
+	public String iniciarPesquisar(ModelMap model) {
+		try {
+			model.addAttribute("grupos", grupoDao.listarTodos());
+			return "pesquisa/pesquisarGrupo";
+		} catch (Exception e) {
+			model.addAttribute("erro", e.getMessage());
+			return "erro";
+		}
+		
 	}
 	
 	@RequestMapping(value = "/grupo/entrar", method = RequestMethod.POST)
@@ -65,16 +80,18 @@ public class GrupoController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/grupo/listar", method = RequestMethod.POST)
-	public String listar(String nome, ModelMap model) {
+	@RequestMapping(value = "/grupo/listarMembros", method = RequestMethod.POST)
+	public String listar(@RequestParam("idGrupo") int idGrupo, ModelMap model) {
 		try {
-			Grupo grupo = grupoDao.buscarPorNome(nome);
+			model.addAttribute("selected", idGrupo);
+			model.addAttribute("grupos", grupoDao.listarTodos());
+			model.addAttribute("membros", membroDao.listarPorIdGrupo(idGrupo));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			model.addAttribute("erro", e.getMessage());
 		}
 		
-		return "listatem/listarGrupo";
+		return "pesquisa/pesquisarGrupo";
 	}
 
 	@RequestMapping("/grupo/iniciarCadastro")
@@ -85,12 +102,16 @@ public class GrupoController {
 	@RequestMapping(value = "/grupo/cadastrar", method = RequestMethod.POST)
 	public String cadastrar(Grupo grupo, ModelMap model, HttpSession sessao) {
 		try {
-			grupo.setModerador((Membro) sessao.getAttribute("usuario"));
+			Membro moderador = (Membro) sessao.getAttribute("usuario");
+			grupo.setModerador(moderador);
+			List<Membro> membros = new ArrayList<>();
+			membros.add(moderador);
+			grupo.setMembros(membros);
 			grupo = grupoDao.adicionar(grupo);
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			model.addAttribute("erro", e.getMessage());
+			model.addAttribute("msg", e.getMessage());
 			return "cadastro/cadastrarGrupo";
 		}
 	}

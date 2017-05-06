@@ -25,6 +25,7 @@
 					<input type="submit" value="ENTRAR"><br/>
 					<a href=<c:url value="/membro/iniciarCadastro" />>CADASTRE-SE AQUI</a>
 				</form>
+				${msg}
 			</div>
 		</div>
 	</body>

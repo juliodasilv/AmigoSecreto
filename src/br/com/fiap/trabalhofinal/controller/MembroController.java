@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +41,7 @@ public class MembroController {
 	public String cadastrar(@Valid Membro membro, BindingResult bindingResult, HttpSession sessao,  ModelMap model) {
 		try {
 			if (bindingResult.hasErrors()) {
-				return "cadastro/cadastrarMembro";
+				throw new BindException(bindingResult);
 			}
 			
 			membro = membroDao.adicionar(membro);
@@ -48,7 +49,7 @@ public class MembroController {
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			model.addAttribute("erro", e.getMessage());
+			model.addAttribute("msg", e.getMessage());
 			return "cadastro/cadastrarMembro";
 		}
 	}

@@ -35,7 +35,7 @@ public class LoginController {
 			sessao.setAttribute("usuario", membro);
 			return "home";
 		} catch (Exception e) {
-			model.addAttribute("erro", e.getMessage());
+			model.addAttribute("msg", e.getMessage());
 			return "login";
 		}
 	}

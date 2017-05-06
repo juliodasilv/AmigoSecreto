@@ -1,8 +1,11 @@
 package br.com.fiap.trabalhofinal.model.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -38,6 +41,13 @@ public class MembroDAO {
 		}catch(NoResultException e){
 			throw new FalhaLoginException();
 		}
+	}
+
+	public List<Membro> listarPorIdGrupo(int idGrupo) {
+		Query query = manager.createQuery("select g from Grupo g where g.id = :idGrupo ", Grupo.class);
+		query.setParameter("idGrupo", idGrupo);
+		Grupo g = (Grupo) query.getSingleResult();
+		return g.getMembros();
 	}
 
 }

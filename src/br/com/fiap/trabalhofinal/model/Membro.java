@@ -1,6 +1,7 @@
 package br.com.fiap.trabalhofinal.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author Julio
@@ -49,9 +52,9 @@ public class Membro implements Serializable {
 	@Column(name = "EMAIL", nullable=false, length=50)
 	private String email;
 	
-//	@Column(name = "DATA_NASCIMENTO")
-//	@DateTimeFormat(iso=ISO.DATE, pattern="yyyy-MM-dd")
-//	private Calendar dataNascimento;
+	@Column(name = "DATA_NASCIMENTO")
+	@DateTimeFormat(iso=ISO.DATE, pattern="yyyy-MM-dd")
+	private Date dataNascimento;
 	
 	@Column(name = "DETALHE")
 	private String detalhe;
@@ -104,13 +107,13 @@ public class Membro implements Serializable {
 		this.email = email;
 	}
 
-//	public Calendar getDataNascimento() {
-//		return dataNascimento;
-//	}
-//
-//	public void setDataNascimento(Calendar dataNascimento) {
-//		this.dataNascimento = dataNascimento;
-//	}
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 
 	public String getDetalhe() {
 		return detalhe;

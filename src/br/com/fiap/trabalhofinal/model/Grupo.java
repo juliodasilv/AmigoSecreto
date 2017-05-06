@@ -1,7 +1,7 @@
 package br.com.fiap.trabalhofinal.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -43,7 +43,7 @@ public class Grupo implements Serializable{
 	private double valorMinimoPresente;
 	
 	@Column(name = "DATA_CONFRATERNIZACAO")
-	private Calendar dataConfraternizacao;
+	private Date dataConfraternizacao;
 	
 	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
 	private List<Membro> membros;
@@ -96,11 +96,11 @@ public class Grupo implements Serializable{
 		this.localConfraternizacao = localConfraternizacao;
 	}
 
-	public Calendar getDataConfraternizacao() {
+	public Date getDataConfraternizacao() {
 		return dataConfraternizacao;
 	}
 
-	public void setDataConfraternizacao(Calendar dataConfraternizacao) {
+	public void setDataConfraternizacao(Date dataConfraternizacao) {
 		this.dataConfraternizacao = dataConfraternizacao;
 	}
 	

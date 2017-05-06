@@ -1,10 +1,14 @@
 package br.com.fiap.trabalhofinal.model.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.fiap.trabalhofinal.exception.FalhaLoginException;
 import br.com.fiap.trabalhofinal.model.Grupo;
 import br.com.fiap.trabalhofinal.model.Membro;
 
@@ -30,12 +34,16 @@ public class GrupoDAO {
 		}
 	}
 
-	public Grupo buscarPorNome(String nome) {
-		return null;
-	}
-
 	public void sortear(Grupo grupo) {
 		
+	}
+
+	public List<Grupo> listarTodos() throws FalhaLoginException {
+		try{
+			return manager.createQuery("select g from Grupo g", Grupo.class).getResultList();
+		}catch(NoResultException e){
+			throw new FalhaLoginException();
+		}
 	}
 
 }

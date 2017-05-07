@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 /**
  * @author Julio
  */
@@ -44,7 +47,12 @@ public class Grupo implements Serializable{
 	private double valorMinimoPresente;
 	
 	@Column(name = "DATA_CONFRATERNIZACAO")
+	@DateTimeFormat(iso=ISO.DATE, pattern="yyyy-MM-dd")
 	private Date dataConfraternizacao;
+
+	@Column(name = "DATA_SORTEIO")
+	@DateTimeFormat(iso=ISO.DATE, pattern="yyyy-MM-dd")
+	private Date dataSorteio;
 	
 	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
 	private List<Membro> membros;
@@ -109,6 +117,14 @@ public class Grupo implements Serializable{
 
 	public void setDataConfraternizacao(Date dataConfraternizacao) {
 		this.dataConfraternizacao = dataConfraternizacao;
+	}
+
+	public Date getDataSorteio() {
+		return dataSorteio;
+	}
+
+	public void setDataSorteio(Date dataSorteio) {
+		this.dataSorteio = dataSorteio;
 	}
 
 	@Override

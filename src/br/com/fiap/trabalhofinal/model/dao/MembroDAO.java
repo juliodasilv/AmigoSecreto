@@ -28,10 +28,10 @@ public class MembroDAO {
 		return manager.find(Membro.class, idMembro);
 	}
 
-	public Membro buscarPorCPFSenha(String cpf, String senha){
-		String consulta = "select m from Membro m where m.cpf=:cpf and m.senha=:senha";
+	public Membro buscarPorEmailSenha(String email, String senha){
+		String consulta = "select m from Membro m where m.email=:email and m.senha=:senha";
 		TypedQuery<Membro> query = manager.createQuery(consulta, Membro.class);
-		query.setParameter("cpf", cpf);
+		query.setParameter("email", email);
 		query.setParameter("senha", senha);
 		
 		return query.getSingleResult();

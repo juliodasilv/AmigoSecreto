@@ -33,9 +33,9 @@ public class LoginController {
 	}
 
 	@RequestMapping(value="/logar", method=RequestMethod.POST)
-	public String logar(@RequestParam("cpf") String cpf, @RequestParam("senha") String senha, HttpSession sessao,  ModelMap model) {
+	public String logar(@RequestParam("email") String email, @RequestParam("senha") String senha, HttpSession sessao,  ModelMap model) {
 		try {
-			Membro membro = service.verificaUsuario(cpf, senha);
+			Membro membro = service.verificaUsuario(email, senha);
 			sessao.setAttribute("usuario", membro);
 			return "home";
 		} catch (Exception e) {

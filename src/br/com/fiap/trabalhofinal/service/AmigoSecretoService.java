@@ -1,5 +1,6 @@
 package br.com.fiap.trabalhofinal.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +37,13 @@ public class AmigoSecretoService {
 	 */
 	public String nomeAmigoSecretoSorteado(Membro membro) {
 		Membro amigoSecreto = membroDao.buscarPorId(membro.getId()).getAmigoSecreto(); 
-		
 		if (amigoSecreto != null)
-			return String.format("O seu amigo secreto é o/a %s", amigoSecreto.getNome());
-		else
-			return "Seu amigo Secreto ainda não foi sorteado.";
+			return String.format("O seu amigo secreto é o(a) <b>%s</b>.\n Veja o que ele(a) disse sobre o presente: <b>%s</b>.", amigoSecreto.getNome(), amigoSecreto.getDetalhePresente());
+		else{
+			Grupo grupo = grupoDao.buscarPorId(membro.getGrupo().getId());
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			return "Seu amigo Secreto ainda não foi sorteado.\n O Sorteio será realizado dia " + sdf.format(grupo.getDataSorteio());
+		}
 	}
 
 	/**
@@ -64,9 +67,9 @@ public class AmigoSecretoService {
 	 * @return
 	 * @throws FalhaLoginException
 	 */
-	public Membro verificaUsuario(String cpf, String senha) throws FalhaLoginException {
+	public Membro verificaUsuario(String email, String senha) throws FalhaLoginException {
 		try{
-			return membroDao.buscarPorCPFSenha(cpf, senha);
+			return membroDao.buscarPorEmailSenha(email, senha);
 		}catch(NoResultException e){
 			throw new FalhaLoginException();
 		}

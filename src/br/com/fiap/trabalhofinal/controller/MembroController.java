@@ -41,7 +41,7 @@ public class MembroController {
 			
 			membro = service.cadastrarMembro(membro);
 			sessao.setAttribute("usuario", membro);
-			model.addAttribute("msg", "Cadastro de membro realizado com sucesso!");
+			model.addAttribute("msg", "Cadastro realizado com sucesso!");
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -24,7 +23,14 @@
 					<td>Local da Confraternização:</td>
 					<td><input type="text" name="localConfraternizacao" size="30"></td>
 				</tr>			
-
+				<tr>
+					<td>Data Confraternização (DD/MM/YYYY):</td>
+					<td><input type="date" name="dataConfraternizacao" size="20"></td>
+				</tr>
+				<tr>
+					<td>Data prevista para sorteio (DD/MM/YYYY):</td>
+					<td><input type="date" name="dataSorteio" size="20"></td>
+				</tr>				
 			</table>
 			<input type="submit" value="Cadastrar">
 		</form>

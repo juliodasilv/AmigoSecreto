@@ -46,9 +46,15 @@ public class GrupoController {
 	}
 	
 	@RequestMapping("/grupo/pesquisar")
-	public String iniciarPesquisar(ModelMap model) {
-		model.addAttribute("grupos", service.listarGrupos());
-		return "pesquisa/pesquisarGrupo";
+	public String iniciarPesquisar(HttpSession sessao, ModelMap model) {
+		Membro usuario = (Membro) sessao.getAttribute("usuario");
+		if(usuario.getGrupo() != null){
+			model.addAttribute("msg", "Você ja pertence a um grupo de amigo secreto!");
+			return "home";
+		}else{
+			model.addAttribute("grupos", service.listarGrupos());
+			return "pesquisa/pesquisarGrupo";
+		}
 	}
 	
 	@RequestMapping(value = "/grupo/entrar", method = RequestMethod.POST)
@@ -58,7 +64,7 @@ public class GrupoController {
 			Membro membro = (Membro) sessao.getAttribute("usuario");
 			//Adiciona o usuario logado no grupo selecionado
 			service.adicionaMembroNoGrupo(idGrupo, membro);
-			model.addAttribute("msg", "Membro adicionado ao grupo com sucesso!");
+			model.addAttribute("msg", "Você foi adicionado ao grupo com sucesso!");
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -76,7 +82,12 @@ public class GrupoController {
 	}
 
 	@RequestMapping("/grupo/iniciarCadastro")
-	public String iniciarCadastro() {
+	public String iniciarCadastro(HttpSession sessao, ModelMap model) {
+		Membro usuario = (Membro) sessao.getAttribute("usuario");
+		if(usuario.getGrupo() != null){
+			model.addAttribute("msg", "Você ja pertence a um grupo de amigo secreto, portanto não pode criar um novo!");
+			return "home";
+		}
 		return "cadastro/cadastrarGrupo";
 	}
 	

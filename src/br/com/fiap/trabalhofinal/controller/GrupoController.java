@@ -1,9 +1,6 @@
 package br.com.fiap.trabalhofinal.controller;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -16,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.fiap.trabalhofinal.model.Grupo;
 import br.com.fiap.trabalhofinal.model.Membro;
-import br.com.fiap.trabalhofinal.model.dao.GrupoDAO;
-import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
+import br.com.fiap.trabalhofinal.service.AmigoSecretoService;
 
 /**
  * @author Julio
@@ -27,69 +23,32 @@ import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
 public class GrupoController {
 	
 	@Autowired
-	private GrupoDAO grupoDao;
-
-	@Autowired
-	private MembroDAO membroDao;
+	private AmigoSecretoService service;
 	
-	@RequestMapping("/grupo/visualizar")
-	public String visualizar() {
-		return "visualizar/visualizarGrupo";
-	}
-
 	@RequestMapping("/grupo/iniciarSorteio")
 	public String iniciarSorteio(ModelMap model, HttpSession sessao) {
-		//seta flag para exibir botão de sortear
 		Membro membro = (Membro) sessao.getAttribute("usuario");
-		model.addAttribute("grupos", grupoDao.listarPorIdModerador(membro.getId()));
+		model.addAttribute("grupos", service.listarGrupoPorIdModerador(membro.getId()));
 		return "pesquisa/pesquisarGrupoParaSorteio";
 	}
 
 	@RequestMapping("/grupo/sortear")
 	public String sortear(@RequestParam("idGrupo") long idGrupo, HttpSession sessao, ModelMap model) {
 		try {
-			//Recupera lista de membros do grupo selecionado
-			List<Membro> membros = membroDao.listarPorIdGrupo(idGrupo);
-			//Replica a lista para uma lista temporaria
-			List<Membro> membrosElegiveisParaSorteio = new ArrayList<>();
-			membrosElegiveisParaSorteio.addAll(membros);
-			
-			//sortear os membros do grupo
-			for (Membro membro : membros) {
-				//Sorteia amigo secreto entre os membros elegiveis
-				System.out.println("Sorteio do membro " + membro.getNome());
-				Membro membroSorteado;
-				do{
-					//Caso o membro sorteie a si mesmo é realizado um novo sorteio
-					membroSorteado = membrosElegiveisParaSorteio.get(0 + ((int)Math.random() * membrosElegiveisParaSorteio.size()));
-					System.out.println("membro sorteado " + membroSorteado.getNome());
-				}while(membroSorteado.getCpf().equals(membro.getCpf()));
-				
-				//Uma vez sorteado o membro é retirado da lista de elegíveis
-				membrosElegiveisParaSorteio.remove(membroSorteado);
-
-				//adiciona amigo secreto
-				membro.setAmigoSecreto(membroSorteado);
-				membroDao.adicionar(membro);
-			}
+			service.sortearAmigoSecreto(idGrupo);
+			model.addAttribute("msg", "Sorteio realizado com sucesso!");
+			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			model.addAttribute("erro", e.getMessage());
+			model.addAttribute("msg", e.getMessage());
 			return "pesquisar/pesquisarGrupoParaSorteio";
 		}
-		return "home";
 	}
 	
 	@RequestMapping("/grupo/pesquisar")
 	public String iniciarPesquisar(ModelMap model) {
-		try {
-			model.addAttribute("grupos", grupoDao.listarTodos());
-			return "pesquisa/pesquisarGrupo";
-		} catch (Exception e) {
-			model.addAttribute("erro", e.getMessage());
-			return "erro";
-		}
-		
+		model.addAttribute("grupos", service.listarGrupos());
+		return "pesquisa/pesquisarGrupo";
 	}
 	
 	@RequestMapping(value = "/grupo/entrar", method = RequestMethod.POST)
@@ -97,29 +56,22 @@ public class GrupoController {
 		try {
 			//Pega o usuario logado na sessao
 			Membro membro = (Membro) sessao.getAttribute("usuario");
-			
 			//Adiciona o usuario logado no grupo selecionado
-			membro.setGrupo(grupoDao.buscarPorId(idGrupo));
-			membroDao.adicionar(membro);
+			service.adicionaMembroNoGrupo(idGrupo, membro);
+			model.addAttribute("msg", "Membro adicionado ao grupo com sucesso!");
+			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			model.addAttribute("erro", e.getMessage());
+			model.addAttribute("msg", e.getMessage());
+			return "pesquisa/pesquisarGrupo";
 		}
-		
-		return "home";
 	}
 
 	@RequestMapping(value = "/grupo/listarMembros", method = RequestMethod.POST)
 	public String listar(@RequestParam("idGrupo") long idGrupo, ModelMap model) {
-		try {
-			model.addAttribute("selected", idGrupo);
-			model.addAttribute("grupos", grupoDao.listarTodos());
-			model.addAttribute("membros", membroDao.listarPorIdGrupo(idGrupo));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			model.addAttribute("erro", e.getMessage());
-		}
-		
+		model.addAttribute("selected", idGrupo);
+		model.addAttribute("grupos", service.listarGrupos());
+		model.addAttribute("membros", service.listarMembrosrPorIdGrupo(idGrupo));
 		return "pesquisa/pesquisarGrupo";
 	}
 
@@ -132,14 +84,8 @@ public class GrupoController {
 	public String cadastrar(Grupo grupo, ModelMap model, HttpSession sessao) {
 		try {
 			Membro moderador = (Membro) sessao.getAttribute("usuario");
-			//Cria novo grupo
-			grupo.setModerador(moderador);
-			grupo = grupoDao.adicionar(grupo);
-			
-			//Adiciona o moderador no grupo selecionado
-			moderador.setGrupo(grupo);
-			membroDao.adicionar(moderador);
-			
+			service.cadastrarGrupo(grupo, moderador);
+			model.addAttribute("msg", "Cadastro de grupo realizado com sucesso!");
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

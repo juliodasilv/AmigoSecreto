@@ -3,14 +3,12 @@ package br.com.fiap.trabalhofinal.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.fiap.trabalhofinal.exception.FalhaLoginException;
 import br.com.fiap.trabalhofinal.model.Grupo;
 import br.com.fiap.trabalhofinal.model.Membro;
 
@@ -22,25 +20,21 @@ public class MembroDAO {
 	@PersistenceContext
 	private EntityManager manager;
 
-	public Membro adicionar(Membro membro) throws Exception {
+	public Membro adicionar(Membro membro){
 		return manager.merge(membro);
 	}
 
-	public Membro buscarPorId(long idMembro) throws Exception {
+	public Membro buscarPorId(long idMembro){
 		return manager.find(Membro.class, idMembro);
 	}
 
-	public Membro verificaUsuario(String cpf, String senha) throws FalhaLoginException {
+	public Membro buscarPorCPFSenha(String cpf, String senha){
 		String consulta = "select m from Membro m where m.cpf=:cpf and m.senha=:senha";
 		TypedQuery<Membro> query = manager.createQuery(consulta, Membro.class);
 		query.setParameter("cpf", cpf);
 		query.setParameter("senha", senha);
 		
-		try{
-			return query.getSingleResult();
-		}catch(NoResultException e){
-			throw new FalhaLoginException();
-		}
+		return query.getSingleResult();
 	}
 
 	public List<Membro> listarPorIdGrupo(long idGrupo) {

@@ -29,6 +29,10 @@
 					<td>Email:</td>
 					<td><input type="text" name="email" size="30"></td>
 				</tr>			
+				<tr>
+					<td>Sugestões de presentes:</td>
+					<td><input type="text" name="detalhePresente" size="100"></td>
+				</tr>
 <!-- 				<tr> -->
 <!-- 					<td>Data Nascimento (DD/MM/YYYY):</td> -->
 <!-- 					<td><input type="text" name="dataNascimento" size="20"></td> -->

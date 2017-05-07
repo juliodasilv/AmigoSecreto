@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.fiap.trabalhofinal.model.Membro;
-import br.com.fiap.trabalhofinal.model.dao.GrupoDAO;
-import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
+import br.com.fiap.trabalhofinal.service.AmigoSecretoService;
 
 /**
  * @author Julio
@@ -25,12 +24,8 @@ import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
 @Transactional
 @RequestMapping("/membro")
 public class MembroController {
-	
 	@Autowired
-	private MembroDAO membroDao;
-
-	@Autowired
-	private GrupoDAO grupoDao;
+	private AmigoSecretoService service;
 	
 	@RequestMapping("/iniciarCadastro")
 	public String iniciarCadastro(Membro membro) {
@@ -44,8 +39,9 @@ public class MembroController {
 				throw new BindException(bindingResult);
 			}
 			
-			membro = membroDao.adicionar(membro);
+			membro = service.cadastrarMembro(membro);
 			sessao.setAttribute("usuario", membro);
+			model.addAttribute("msg", "Cadastro de membro realizado com sucesso!");
 			return "home";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -57,7 +53,7 @@ public class MembroController {
 	@RequestMapping("/visualizarAmigoSecreto")
 	public String visualizar(HttpSession sessao, ModelMap model) {
 		Membro membro = (Membro) sessao.getAttribute("usuario");
-		model.addAttribute("msg", membro.getNomeAmigoSecreto());
+		model.addAttribute("msg", service.nomeAmigoSecretoSorteado(membro));
 		return "visualizar/visualizarAmigoSecreto";
 	}
 	

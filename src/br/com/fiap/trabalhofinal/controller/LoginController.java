@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.fiap.trabalhofinal.model.Membro;
-import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
+import br.com.fiap.trabalhofinal.service.AmigoSecretoService;
 
 /**
  * @author Julio
@@ -19,9 +19,8 @@ import br.com.fiap.trabalhofinal.model.dao.MembroDAO;
  */
 @Controller
 public class LoginController {
-	
 	@Autowired
-	private MembroDAO membroDAO;
+	private AmigoSecretoService service;
 	
 	@RequestMapping("/")
 	public String iniciar() {
@@ -36,7 +35,7 @@ public class LoginController {
 	@RequestMapping(value="/logar", method=RequestMethod.POST)
 	public String logar(@RequestParam("cpf") String cpf, @RequestParam("senha") String senha, HttpSession sessao,  ModelMap model) {
 		try {
-			Membro membro = membroDAO.verificaUsuario(cpf, senha);
+			Membro membro = service.verificaUsuario(cpf, senha);
 			sessao.setAttribute("usuario", membro);
 			return "home";
 		} catch (Exception e) {

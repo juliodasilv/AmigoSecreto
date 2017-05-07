@@ -56,8 +56,8 @@ public class Membro implements Serializable {
 	@DateTimeFormat(iso=ISO.DATE, pattern="yyyy-MM-dd")
 	private Date dataNascimento;
 	
-	@Column(name = "DETALHE")
-	private String detalhe;
+	@Column(name = "DETALHE_PRESENTE")
+	private String detalhePresente;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_AMIGO_SECRETO", referencedColumnName = "ID")
@@ -115,12 +115,12 @@ public class Membro implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getDetalhe() {
-		return detalhe;
+	public String getDetalhePresente() {
+		return detalhePresente;
 	}
 
-	public void setDetalhe(String detalhe) {
-		this.detalhe = detalhe;
+	public void setDetalhePresente(String detalhePresente) {
+		this.detalhePresente = detalhePresente;
 	}
 
 	public Grupo getGrupo() {
@@ -142,25 +142,7 @@ public class Membro implements Serializable {
 	@Override
 	public String toString() {
 		return "Membro [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", senha=" + senha + ", email=" + email
-				+ ", dataNascimento=" + dataNascimento + ", detalhe=" + detalhe + ", amigoSecreto=" + amigoSecreto
+				+ ", dataNascimento=" + dataNascimento + ", detalhePresente=" + detalhePresente + ", amigoSecreto=" + amigoSecreto
 				+ ", grupo=" + grupo.getNome() + "]";
 	}
-
-	/**
-	 * Retorna o nome do amigo secreto previamente sorteado.
-	 * Caso ainda não tenha sido realizado o sorteio, retorna uma msg. 
-	 * 
-	 * @return
-	 */
-	public String getNomeAmigoSecreto() {
-		String msg = "";
-
-		if (getAmigoSecreto() != null)
-			msg = String.format("O seu amigo secreto é o %s", getAmigoSecreto().getNome());
-		else
-			msg = "Seu amigo Secreto ainda não foi sorteado.";
-
-		return msg;
-	}
-	
 }

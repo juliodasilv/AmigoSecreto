@@ -3,13 +3,11 @@ package br.com.fiap.trabalhofinal.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.fiap.trabalhofinal.exception.FalhaLoginException;
 import br.com.fiap.trabalhofinal.model.Grupo;
 
 /**
@@ -21,20 +19,16 @@ public class GrupoDAO {
 	@PersistenceContext
 	private EntityManager manager;
 
-	public Grupo adicionar(Grupo grupo) throws Exception {
+	public Grupo adicionar(Grupo grupo){
 		return manager.merge(grupo);
 	}
 
-	public Grupo buscarPorId(long idGrupo) throws Exception {
+	public Grupo buscarPorId(long idGrupo){
 		return manager.find(Grupo.class, idGrupo);
 	}
 	
-	public List<Grupo> listarTodos() throws FalhaLoginException {
-		try{
-			return manager.createQuery("select g from Grupo g", Grupo.class).getResultList();
-		}catch(NoResultException e){
-			throw new FalhaLoginException();
-		}
+	public List<Grupo> listarTodos(){
+		return manager.createQuery("select g from Grupo g", Grupo.class).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")

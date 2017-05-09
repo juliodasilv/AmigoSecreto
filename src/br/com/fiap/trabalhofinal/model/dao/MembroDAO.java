@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import br.com.fiap.trabalhofinal.model.Grupo;
@@ -43,7 +44,7 @@ public class MembroDAO {
 		Grupo g = (Grupo) query.getSingleResult();
 		
 		for (Membro membro : g.getMembros()) {
-			System.out.println(membro);
+			Hibernate.initialize(membro);
 		}
 		
 		return g.getMembros();

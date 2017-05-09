@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -57,11 +56,8 @@ public class Grupo implements Serializable{
 	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
 	private List<Membro> membros;
 
-	@Transient
-	//TODO 
-	//Criar uma flag para permitir ou não o sorteio
-	//por enquanto esta transiente para nao esquecer de fazer isso
-	private boolean permiteSorteio;
+//	@Column(name = "VALOR_MINIMO_PRESENTE")
+//	private char permiteSorteio;
 	
 	public long getId() {
 		return id;

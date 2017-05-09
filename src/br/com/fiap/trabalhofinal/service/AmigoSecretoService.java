@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.trabalhofinal.exception.FalhaLoginException;
+import br.com.fiap.trabalhofinal.exception.MembrosInsuficienteException;
 import br.com.fiap.trabalhofinal.model.Grupo;
 import br.com.fiap.trabalhofinal.model.Membro;
 import br.com.fiap.trabalhofinal.model.dao.GrupoDAO;
@@ -38,11 +39,11 @@ public class AmigoSecretoService {
 	public String nomeAmigoSecretoSorteado(Membro membro) {
 		Membro amigoSecreto = membroDao.buscarPorId(membro.getId()).getAmigoSecreto(); 
 		if (amigoSecreto != null)
-			return String.format("O seu amigo secreto é o(a) <b>%s</b>.\n Veja o que ele(a) disse sobre o presente: <b>%s</b>.", amigoSecreto.getNome(), amigoSecreto.getDetalhePresente());
+			return String.format("O seu amigo secreto é o(a) <b>%s</b>.<br> Veja o que ele(a) disse sobre o presente: <b>%s</b>.", amigoSecreto.getNome(), amigoSecreto.getDetalhePresente());
 		else{
 			Grupo grupo = grupoDao.buscarPorId(membro.getGrupo().getId());
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			return "Seu amigo Secreto ainda não foi sorteado.\n O Sorteio será realizado dia " + sdf.format(grupo.getDataSorteio());
+			return "Seu amigo Secreto ainda não foi sorteado.<br> O Sorteio será realizado dia " + sdf.format(grupo.getDataSorteio());
 		}
 	}
 
@@ -84,14 +85,6 @@ public class AmigoSecretoService {
 	}
 
 	/**
-	 * @param idModerador
-	 * @return
-	 */
-	public Object listarGrupoPorIdModerador(long idModerador) {
-		return grupoDao.listarPorIdModerador(idModerador);
-	}
-
-	/**
 	 * @param idGrupo
 	 * @return
 	 */
@@ -99,7 +92,7 @@ public class AmigoSecretoService {
 		return membroDao.listarPorIdGrupo(idGrupo);
 	}
 
-	public Object listarGrupos() {
+	public List<Grupo> listarGrupos() {
 		return grupoDao.listarTodos();
 	}
 
@@ -114,10 +107,16 @@ public class AmigoSecretoService {
 
 	/**
 	 * @param idGrupo
+	 * @throws Exception 
 	 */
-	public void sortearAmigoSecreto(long idGrupo) {
+	public void sortearAmigoSecreto(long idGrupo) throws Exception {
 		//Recupera lista de membros do grupo selecionado
 		List<Membro> membros = listarMembrosrPorIdGrupo(idGrupo);
+		
+		if(membros.size() < 3){
+			throw new MembrosInsuficienteException();
+		}
+		
 		//Replica a lista para uma lista temporaria
 		List<Membro> membrosElegiveisParaSorteio = new ArrayList<>();
 		membrosElegiveisParaSorteio.addAll(membros);
@@ -138,5 +137,13 @@ public class AmigoSecretoService {
 			membro.setAmigoSecreto(membroSorteado);
 			cadastrarMembro(membro);
 		}
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Grupo buscarGrupoPorId(long id) {
+		return grupoDao.buscarPorId(id);
 	}
 }

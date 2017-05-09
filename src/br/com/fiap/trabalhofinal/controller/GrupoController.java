@@ -28,7 +28,8 @@ public class GrupoController {
 	@RequestMapping("/grupo/iniciarSorteio")
 	public String iniciarSorteio(ModelMap model, HttpSession sessao) {
 		Membro membro = (Membro) sessao.getAttribute("usuario");
-		model.addAttribute("grupos", service.listarGrupoPorIdModerador(membro.getId()));
+		model.addAttribute("grupo", service.buscarGrupoPorId(membro.getGrupo().getId()));
+		model.addAttribute("membros", service.listarMembrosrPorIdGrupo(membro.getGrupo().getId()));
 		return "pesquisa/pesquisarGrupoParaSorteio";
 	}
 

@@ -8,32 +8,12 @@
 		<title>Amigo Secreto</title>
 	</head>
 	<body>
-		<h1>Escolha um grupo que gostaria de participar</h1>
+		<h1>Sortear ${grupo.nome}</h1>
 		<form action=<c:url value="/grupo/sortear"/> method="post">
-			<table>
-				<tr>
-					<td>Selecione a Grupo:</td>
-					<td><select name="idGrupo" onchange=<c:url value="/grupo/listarMembros"/>>
-							<option value="">[Selecione]</option>
-							<c:forEach var="g" items="${grupos}">
-								<c:choose>
-									<c:when test="${g.id eq selected}">
-										<option value="${g.id}" selected>${g.nome}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${g.id}">${g.nome}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-					</select></td>
-				</tr>
-			</table>
-			<input type="submit" value="Sortear Grupo">
-		</form>
 		<table>
 			<thead>
 				<tr>
-					<th>NOME</th>
+					<th>PARTICIPANTES</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,6 +24,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
+			<input type="submit" value="Sortear Grupo">
+		</form>
 		<br>
 		<a href=<c:url value="/home" />>Voltar</a>
 	</body>

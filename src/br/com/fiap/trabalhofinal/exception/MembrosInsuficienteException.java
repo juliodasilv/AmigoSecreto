@@ -1,12 +1,12 @@
 package br.com.fiap.trabalhofinal.exception;
 
-public class FalhaLoginException extends Exception {
+public class MembrosInsuficienteException extends Exception {
 
 	private static final long serialVersionUID = 7815534543008419914L;
 
 	@Override
 	public String getMessage() {
-		return "Email ou senha inválidos";
+		return "É necessario pelo menos 3 membros no grupo para realizar o sorteio.";
 	}
 
 }

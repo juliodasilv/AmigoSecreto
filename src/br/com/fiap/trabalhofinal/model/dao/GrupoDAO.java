@@ -31,11 +31,4 @@ public class GrupoDAO {
 		return manager.createQuery("select g from Grupo g", Grupo.class).getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Grupo> listarPorIdModerador(long idModerador) {
-		Query query = manager.createQuery("select g from Grupo g where g.moderador.id=:idModerador", Grupo.class);
-		query.setParameter("idModerador", idModerador);
-		return query.getResultList();
-	}
-
 }

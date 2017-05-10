@@ -40,6 +40,8 @@ public class AmigoSecretoService {
 		Membro amigoSecreto = membroDao.buscarPorId(membro.getId()).getAmigoSecreto(); 
 		if (amigoSecreto != null)
 			return String.format("O seu amigo secreto é o(a) <b>%s</b>.<br> Veja o que ele(a) disse sobre o presente: <b>%s</b>.", amigoSecreto.getNome(), amigoSecreto.getDetalhePresente());
+		else if(membro.getGrupo() == null)
+			return "Você não pertence a nenhum grupo de amigo secreto.";
 		else{
 			Grupo grupo = grupoDao.buscarPorId(membro.getGrupo().getId());
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

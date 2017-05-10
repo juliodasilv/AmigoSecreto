@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html">
@@ -14,27 +13,27 @@
 			<table>
 				<tr>
 					<td>Nome:</td>
-					<td><input type="text" name="nome" size="30"></td>
+					<td><input type="text" name="nome" size="30"><sf:errors path="membro.nome" cssStyle="color:red"/></td>
 				</tr>
 				<tr>
 					<td>CPF:</td>
-					<td><input type="text" name="cpf" size="30"></td>
+					<td><input type="text" name="cpf" size="30"><sf:errors path="membro.cpf" cssStyle="color:red"/></td>
 				</tr>
 				<tr>
 					<td>Senha:</td>
-					<td><input type="password" name="senha" size="30"></td>
+					<td><input type="password" name="senha" size="30"><sf:errors path="membro.senha" cssStyle="color:red"/></td>
 				</tr>
 				<tr>
 					<td>Email:</td>
-					<td><input type="text" name="email" size="30"></td>
+					<td><input type="text" name="email" size="30"><sf:errors path="membro.email" cssStyle="color:red"/></td>
 				</tr>			
 				<tr>
 					<td>Sugestões de presentes:</td>
-					<td><textarea name="detalhePresente" rows="4" placeholder="Escreva algumas sugestões de presente..."></textarea></td>
+					<td><textarea name="detalhePresente" rows="4" placeholder="Escreva algumas sugestões de presente..."></textarea><sf:errors path="membro.detalhePresente" cssStyle="color:red"/></td>
 				</tr>
 				<tr>
 					<td>Data Nascimento (DD/MM/YYYY):</td>
-					<td><input type="date" name="dataNascimento" size="20"></td>
+					<td><input type="date" name="dataNascimento" size="20"><sf:errors path="membro.dataNascimento" cssStyle="color:red"/></td>
 				</tr>
 			</table>
 			<input type="submit" value="Cadastrar">

@@ -36,7 +36,8 @@ public class Membro implements Serializable {
 	@Column(name = "ID")
 	private long id;
 	
-	@Size(max=128) @NotNull @NotEmpty
+	@Size(max=128)
+	@NotNull(message="{membro.nome.null}") 
 	@Column(name = "NOME", nullable=false, length=128)
 	private String nome;
 	

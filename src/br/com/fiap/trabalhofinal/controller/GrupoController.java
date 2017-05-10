@@ -3,10 +3,13 @@ package br.com.fiap.trabalhofinal.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +43,6 @@ public class GrupoController {
 			model.addAttribute("msg", "Sorteio realizado com sucesso!");
 			return "home";
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			model.addAttribute("msg", e.getMessage());
 			return "pesquisar/pesquisarGrupoParaSorteio";
 		}
@@ -68,13 +70,12 @@ public class GrupoController {
 			model.addAttribute("msg", "Você foi adicionado ao grupo com sucesso!");
 			return "home";
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			model.addAttribute("msg", e.getMessage());
 			return "pesquisa/pesquisarGrupo";
 		}
 	}
 
-	@RequestMapping(value = "/grupo/listarMembros", method = RequestMethod.POST)
+	@RequestMapping(value = "/grupo/listarMembros", method = RequestMethod.GET)
 	public String listar(@RequestParam("idGrupo") long idGrupo, ModelMap model) {
 		model.addAttribute("selected", idGrupo);
 		model.addAttribute("grupos", service.listarGrupos());
@@ -93,14 +94,17 @@ public class GrupoController {
 	}
 	
 	@RequestMapping(value = "/grupo/cadastrar", method = RequestMethod.POST)
-	public String cadastrar(Grupo grupo, ModelMap model, HttpSession sessao) {
+	public String cadastrar(@Valid Grupo grupo, BindingResult bindingResult, ModelMap model, HttpSession sessao) {
 		try {
+			if (bindingResult.hasErrors()) {
+				throw new BindException(bindingResult);
+			}
+			
 			Membro moderador = (Membro) sessao.getAttribute("usuario");
 			service.cadastrarGrupo(grupo, moderador);
 			model.addAttribute("msg", "Cadastro de grupo realizado com sucesso!");
 			return "home";
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			model.addAttribute("msg", e.getMessage());
 			return "cadastro/cadastrarGrupo";
 		}

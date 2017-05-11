@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -56,8 +57,9 @@ public class Grupo implements Serializable{
 	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
 	private List<Membro> membros;
 
-//	@Column(name = "VALOR_MINIMO_PRESENTE")
-//	private char permiteSorteio;
+	@Column(name = "PERMITE_SORTEIO")
+	@Type(type="true_false")
+	private Boolean permiteSorteio;
 	
 	public long getId() {
 		return id;
@@ -121,6 +123,14 @@ public class Grupo implements Serializable{
 
 	public void setDataSorteio(Date dataSorteio) {
 		this.dataSorteio = dataSorteio;
+	}
+
+	public Boolean getPermiteSorteio() {
+		return permiteSorteio;
+	}
+
+	public void setPermiteSorteio(Boolean permiteSorteio) {
+		this.permiteSorteio = permiteSorteio;
 	}
 
 	@Override

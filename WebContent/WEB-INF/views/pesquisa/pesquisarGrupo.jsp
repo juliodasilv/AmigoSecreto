@@ -1,16 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<script type="text/javascript" src="/resources/js/jquery.js"></script>
+		<script src="<c:url value="/resources/js/jquery.js"/>"></script>
 		<title>Amigo Secreto</title>
 		<script type="text/javascript">
-		    function listarMembro(id) {
-		      $.get("/grupo/listarMembros?id="+id);
-		    }
+			$(function() {
+				function onTarefaItemClick() {
+					$("#grupos").change(function(){
+						$.get("listarMembros?idGrupo=" + $(this).val());
+					});
+				}
+				
+				$("#grupos").click(onTarefaItemClick);
+			});
 		 </script>
 </head>
 	<body>
@@ -18,16 +23,16 @@
 		<form action=<c:url value="/grupo/entrar"/> method="post">
 			<table>
 				<tr>
-					<td>Selecione a Grupo:</td>
-					<td><select name="idGrupo" onclick="listarMembro(${g.id})">
-							<option value="" onclick="listarMembro(${g.id})">[Selecione]</option>
+					<td>Selecione um Grupo:</td>
+					<td><select name="idGrupo" id="grupos">
+							<option value="0">[Selecione]</option>
 							<c:forEach var="g" items="${grupos}">
 								<c:choose>
 									<c:when test="${g.id eq selected}">
-										<option value="${g.id}" selected onclick="listarMembro(${g.id})">${g.nome}</option>
+										<option value="${g.id}" selected>${g.nome}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${g.id}" onclick="listarMembro(${g.id})">${g.nome}</option>
+										<option value="${g.id}">${g.nome}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -50,6 +55,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		${msg}
 		<br>
 		<a href=<c:url value="/home" />>Voltar</a>
 	</body>

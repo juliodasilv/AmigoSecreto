@@ -2,6 +2,10 @@ package br.com.fiap.trabalhofinal.conf;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * @author Helena
+ *
+ */
 public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer {
 	@Override
 	protected Class<?>[] getRootConfigClasses() {

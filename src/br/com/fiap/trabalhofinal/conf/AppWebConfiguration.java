@@ -9,6 +9,10 @@ import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+/**
+ * @author Helena
+ *
+ */
 @EnableWebMvc
 @ComponentScan(basePackages = "br.com.fiap.trabalhofinal")
 public class AppWebConfiguration {

@@ -24,27 +24,40 @@ import br.com.fiap.trabalhofinal.service.AmigoSecretoService;
 @Controller
 @Transactional
 public class GrupoController {
-	
+
 	@Autowired
 	private AmigoSecretoService service;
-	
+
+	/**
+	 * @param model
+	 * @param sessao
+	 * @return
+	 */
 	@RequestMapping("/grupo/iniciarSorteio")
 	public String iniciarSorteio(ModelMap model, HttpSession sessao) {
 		Membro membro = (Membro) sessao.getAttribute("usuario");
-		model.addAttribute("grupo", service.buscarGrupoPorId(membro.getGrupo().getId()));
-		model.addAttribute("membros", service.listarMembrosrPorIdGrupo(membro.getGrupo().getId()));
-		return "pesquisa/pesquisarGrupoParaSorteio";
+
+		try {
+			service.validarPermissaoParaSorteio(membro);
+			model.addAttribute("grupo", service.buscarGrupoPorId(membro.getGrupo().getId()));
+			model.addAttribute("membros", service.listarMembrosrPorIdGrupo(membro.getGrupo().getId()));
+			return "pesquisa/pesquisarGrupoParaSorteio";
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+			return "home";
+		}
 	}
 
 	@RequestMapping("/grupo/sortear")
-	public String sortear(@RequestParam("idGrupo") long idGrupo, HttpSession sessao, ModelMap model) {
+	public String sortear(HttpSession sessao, ModelMap model) {
 		try {
-			service.sortearAmigoSecreto(idGrupo);
+			Membro membro = (Membro) sessao.getAttribute("usuario");
+			service.sortearAmigoSecreto(membro.getGrupo().getId());
 			model.addAttribute("msg", "Sorteio realizado com sucesso!");
 			return "home";
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());
-			return "pesquisar/pesquisarGrupoParaSorteio";
+			return iniciarSorteio(model, sessao);
 		}
 	}
 	
@@ -80,7 +93,7 @@ public class GrupoController {
 		model.addAttribute("selected", idGrupo);
 		model.addAttribute("grupos", service.listarGrupos());
 		model.addAttribute("membros", service.listarMembrosrPorIdGrupo(idGrupo));
-		return "pesquisa/pesquisarGrupo";
+		return "redirect:pesquisa/pesquisarGrupo";
 	}
 
 	@RequestMapping("/grupo/iniciarCadastro")

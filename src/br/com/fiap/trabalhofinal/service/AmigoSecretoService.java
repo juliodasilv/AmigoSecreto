@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.trabalhofinal.exception.FalhaLoginException;
+import br.com.fiap.trabalhofinal.exception.GrupoJaSorteadoException;
 import br.com.fiap.trabalhofinal.exception.MembrosInsuficienteException;
+import br.com.fiap.trabalhofinal.exception.UsuarioNaoEModeradorException;
 import br.com.fiap.trabalhofinal.model.Grupo;
 import br.com.fiap.trabalhofinal.model.Membro;
 import br.com.fiap.trabalhofinal.model.dao.GrupoDAO;
@@ -40,8 +42,9 @@ public class AmigoSecretoService {
 		Membro amigoSecreto = membroDao.buscarPorId(membro.getId()).getAmigoSecreto(); 
 		if (amigoSecreto != null)
 			return String.format("O seu amigo secreto é o(a) <b>%s</b>.<br> Veja o que ele(a) disse sobre o presente: <b>%s</b>.", amigoSecreto.getNome(), amigoSecreto.getDetalhePresente());
-		else if(membro.getGrupo() == null)
-			return "Você não pertence a nenhum grupo de amigo secreto.";
+		else if(membro.getGrupo() == null){
+			return "Você ainda não pertence a nenhum grupo de amigo secreto.";
+		}
 		else{
 			Grupo grupo = grupoDao.buscarPorId(membro.getGrupo().getId());
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -56,6 +59,7 @@ public class AmigoSecretoService {
 	 */
 	public void cadastrarGrupo(Grupo grupo, Membro moderador) throws Exception {
 		//Cria novo grupo
+		grupo.setPermiteSorteio(true);
 		grupo.setModerador(moderador);
 		grupo = grupoDao.adicionar(grupo);
 		
@@ -101,10 +105,15 @@ public class AmigoSecretoService {
 	/**
 	 * @param idGrupo
 	 * @param membro
+	 * @throws Exception 
 	 */
-	public void adicionaMembroNoGrupo(long idGrupo, Membro membro) {
-		membro.setGrupo(grupoDao.buscarPorId(idGrupo));
-		membroDao.adicionar(membro);
+	public void adicionaMembroNoGrupo(long idGrupo, Membro membro) throws Exception {
+		try{
+			membro.setGrupo(grupoDao.buscarPorId(idGrupo));
+			membroDao.adicionar(membro);
+		}catch(NoResultException e){
+			throw new Exception("Selecione um grupo");//TODO Criar exceção especifica
+		}
 	}
 
 	/**
@@ -139,8 +148,24 @@ public class AmigoSecretoService {
 			membro.setAmigoSecreto(membroSorteado);
 			cadastrarMembro(membro);
 		}
+		
+		Grupo grupo = buscarGrupoPorId(idGrupo);
+		grupo.setPermiteSorteio(false);
+		grupoDao.adicionar(grupo);
 	}
 
+	public void validarPermissaoParaSorteio(Membro membro) throws Exception {
+		try {
+			Grupo grupo = grupoDao.retornaGrupoQueOUsuarioEModerador(membro.getId());
+
+			// Valida se ja foi sorteado
+			if (!grupo.getPermiteSorteio())
+				throw new GrupoJaSorteadoException();
+		} catch (NoResultException e) {
+			throw new UsuarioNaoEModeradorException();
+		}
+	}
+	
 	/**
 	 * @param id
 	 * @return

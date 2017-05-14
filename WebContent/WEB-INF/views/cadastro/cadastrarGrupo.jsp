@@ -1,41 +1,60 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<jsp:include page="../templates/header.jsp" />
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
-<!DOCTYPE html">
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Amigo Secreto</title>
-	</head>
-	<body>
-		<h1>Criar Grupo</h1>
-		<form action=<c:url value="/grupo/cadastrar"/> method="post">
-			<table>
-				<tr>
-					<td>Nome do Grupo:</td>
-					<td><input type="text" name="nome" size="30"><sf:errors path="grupo.nome"/></td>
-				</tr>
-				<tr>
-					<td>Valor minimo do presente:</td>
-					<td><input type="text" name="valorMinimoPresente" size="30"><sf:errors path="grupo.valorMinimoPresente" cssStyle="color:red"/></td>
-				</tr>
-				<tr>
-					<td>Local da Confraternização:</td>
-					<td><input type="text" name="localConfraternizacao" size="30"><sf:errors path="grupo.localConfraternizacao" cssStyle="color:red"/></td>
-				</tr>			
-				<tr>
-					<td>Data Confraternização (DD/MM/YYYY):</td>
-					<td><input type="date" name="dataConfraternizacao" size="20"><sf:errors path="grupo.dataConfraternizacao" cssStyle="color:red"/></td>
-				</tr>
-				<tr>
-					<td>Data prevista para sorteio (DD/MM/YYYY):</td>
-					<td><input type="date" name="dataSorteio" size="20"><sf:errors path="grupo.dataSorteio" cssStyle="color:red"/></td>
-				</tr>				
-			</table>
-			<input type="submit" value="Cadastrar">
-		</form>
-		${msg}
-		<br>
-		<a href=<c:url value="/home" />>Voltar</a>
-	</body>
-</html>
+<%@taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+
+<div class="content-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="page-head-line">Criar Grupo</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Cadastre o seu grupo</div>
+					<div class="panel-body">
+						<form action=<c:url value="/grupo/cadastrar"/> method="post">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="nome">Nome do Grupo</label> <input type="text"
+										class="form-control" name="nome" placeholder="Digite seu nome" />
+									<sf:errors path="grupo.nome" cssStyle="color:red" />
+								</div>
+								<div class="form-group">
+									<label for="valorMinimoPresente">Valor Mínimo do
+										Presente</label> <input type="text" class="form-control" name="valorMinimoPresente"
+										placeholder="Digite o valor mínimo do presente" />
+									<sf:errors path="grupo.valorMinimoPresente"
+										cssStyle="color:red" />
+								</div>
+								<div class="form-group">
+									<label for="localConfraternizacao">Local da Confraternização</label> <input
+										type="text" class="form-control" name="localConfraternizacao"
+										placeholder="Digite a sugestão de presente" />
+									<sf:errors path="grupo.localConfraternizacao" cssStyle="color:red" />
+								</div>
+								<div class="form-group">
+									<label for="dataConfraternizacao">Data de Confraternização</label> <input
+										type="date" class="form-control" name="dataConfraternizacao" />
+									<sf:errors path="grupo.dataConfraternizacao" cssStyle="color:red" />
+								</div>
+								<div class="form-group">
+									<label for="dataSorteio">Data de Sorteio</label> <input
+										type="date" class="form-control" name="dataSorteio" />
+									<sf:errors path="grupo.dataSorteio" cssStyle="color:red" />
+								</div>
+
+								<input type="submit" value="Cadastrar" class="btn btn-default" />
+							</div>
+						</form>
+						${msg } <a href=<c:url value="/" />>Voltar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<jsp:include page="../templates/footer.jsp" />

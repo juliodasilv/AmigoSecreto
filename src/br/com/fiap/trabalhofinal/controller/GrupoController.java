@@ -73,6 +73,14 @@ public class GrupoController {
 		}
 	}
 	
+	@RequestMapping(value = "/grupo/listarMembros", method = RequestMethod.GET)
+	public String listar(@RequestParam("idGrupo") long idGrupo, ModelMap model) {
+		model.addAttribute("selected", idGrupo);
+		model.addAttribute("grupos", service.listarGrupos());
+		model.addAttribute("membros", service.listarMembrosrPorIdGrupo(idGrupo));
+		return "pesquisa/tabela";
+	}
+	
 	@RequestMapping(value = "/grupo/entrar", method = RequestMethod.POST)
 	public String entrar(@RequestParam("idGrupo") long idGrupo, HttpSession sessao, ModelMap model) {
 		try {
@@ -86,14 +94,6 @@ public class GrupoController {
 			model.addAttribute("msg", e.getMessage());
 			return "pesquisa/pesquisarGrupo";
 		}
-	}
-
-	@RequestMapping(value = "/grupo/listarMembros", method = RequestMethod.GET)
-	public String listar(@RequestParam("idGrupo") long idGrupo, ModelMap model) {
-		model.addAttribute("selected", idGrupo);
-		model.addAttribute("grupos", service.listarGrupos());
-		model.addAttribute("membros", service.listarMembrosrPorIdGrupo(idGrupo));
-		return "redirect:pesquisa/pesquisarGrupo";
 	}
 
 	@RequestMapping("/grupo/iniciarCadastro")

@@ -1,7 +1,7 @@
 package br.com.fiap.trabalhofinal.exception;
 
 /**
- * @author Julio, Helena
+ * @author Helena
  *
  */
 public class GrupoJaSorteadoException extends Exception {

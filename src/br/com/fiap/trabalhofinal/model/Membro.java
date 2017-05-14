@@ -41,7 +41,7 @@ public class Membro implements Serializable {
 	@Column(name = "NOME", nullable=false, length=128)
 	private String nome;
 	
-	@Column(name = "CPF", nullable=false, unique=true)
+	@Column(name = "CPF", nullable=false)
 //	@Pattern(regexp="[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}", message="CPF inválido") @NotNull @NotEmpty
 	private String cpf;
 	
@@ -50,7 +50,7 @@ public class Membro implements Serializable {
 	private String senha;
 	
 	@Email(message="E-mail inválido	") @NotNull @NotEmpty
-	@Column(name = "EMAIL", nullable=false, length=50)
+	@Column(name = "EMAIL", nullable=false, length=50, unique=true)
 	private String email;
 	
 	@Column(name = "DATA_NASCIMENTO")

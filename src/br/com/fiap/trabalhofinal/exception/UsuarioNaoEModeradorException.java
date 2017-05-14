@@ -1,7 +1,7 @@
 package br.com.fiap.trabalhofinal.exception;
 
 /**
- * @author Julio, Helena
+ * @author Julio
  *
  */
 public class UsuarioNaoEModeradorException extends Exception {

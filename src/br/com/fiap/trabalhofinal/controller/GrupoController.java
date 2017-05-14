@@ -21,6 +21,10 @@ import br.com.fiap.trabalhofinal.service.AmigoSecretoService;
 /**
  * @author Julio
  */
+/**
+ * @author Mescla
+ *
+ */
 @Controller
 @Transactional
 public class GrupoController {
@@ -35,9 +39,11 @@ public class GrupoController {
 	 */
 	@RequestMapping("/grupo/iniciarSorteio")
 	public String iniciarSorteio(ModelMap model, HttpSession sessao) {
+		// busca o usuário da sessao
 		Membro membro = (Membro) sessao.getAttribute("usuario");
 
 		try {
+			// verifica se o usuário é moderador (permissão) e se tem mais de 3 pessoas no grupo
 			service.validarPermissaoParaSorteio(membro);
 			model.addAttribute("grupo", service.buscarGrupoPorId(membro.getGrupo().getId()));
 			model.addAttribute("membros", service.listarMembrosrPorIdGrupo(membro.getGrupo().getId()));
@@ -61,9 +67,12 @@ public class GrupoController {
 		}
 	}
 	
+	
 	@RequestMapping("/grupo/pesquisar")
 	public String iniciarPesquisar(HttpSession sessao, ModelMap model) {
+		// busca o usuario da sessao
 		Membro usuario = (Membro) sessao.getAttribute("usuario");
+		// verifica se o usuário está vinculado a um grupo de amigo secreto
 		if(usuario.getGrupo() != null){
 			model.addAttribute("msg", "Você ja pertence a um grupo de amigo secreto!");
 			return "home";

@@ -1,10 +1,19 @@
 ﻿# AmigoSecreto
 
-Trabalho Final de Java na Web. Descrição Básica
+Sistema para cadastro de membros para posterior sorteio em um amigo secreto.
 
 ## Descrição
 
-Realizar o sorteio de um amigo secreto em que o usuário se cadastrar no sistema e tem acessos aos grupos do sorteio que foram criados.
+Os requisitos do sistema apontados pelo são:
+1. Permissão de cadastro de pessoas participantes no amigo secreto.
+2. Cada pessoa cadastrada deverá ter um meio de acesso ao sistema. Ela poderá utilizar, por
+exemplo, seu CPF e uma senha (poderão ser usados outros meios de acesso; esta é uma
+sugestão)
+3. Depois que todos os membros se cadastrarem, o administrador do sistema executa uma ação
+para realizar o sorteio.
+4. Após o sorteio, ao entrar no sistema, o usuário poderá visualizar quem é seu amigo secreto.
+5. A pessoa sorteada não poderá ser sorteada novamente.
+6. A pessoa não poderá sortear a si mesma. 
 
 ## Estrutura do banco
 

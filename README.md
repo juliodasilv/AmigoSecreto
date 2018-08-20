@@ -1,4 +1,4 @@
-# AmigoSecreto
+﻿# AmigoSecreto
 
 Trabalho Final de Java na Web. Descrição Básica
 
@@ -29,3 +29,8 @@ br.com.fiap.trabalhofinal.conf.JPAConfiguration
 dataSource.setUrl("jdbc:mysql://localhost:3306/dbamigosecreto");
 dataSource.setUsername("root");
 dataSource.setPassword("root");
+
+## Autores
+
+* **Julio Oliveira da Silva** - [juliodasilv](https://github.com/juliodasilv)
+* **Helena Strada** - [hstrada](https://github.com/hstrada)
